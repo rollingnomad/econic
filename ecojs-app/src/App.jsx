@@ -23,7 +23,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-start align-top">
+    <div className="min-h-screen w-full bg-gray-100 flex flex-col">
       <Header />
       <HomePage />
     </div>

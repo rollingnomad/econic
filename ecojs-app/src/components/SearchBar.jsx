@@ -6,6 +6,7 @@ import { useState, useMemo } from "react";
 export function SearchBar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
 
   const allSpecies = useLiveQuery(() => db.speciesData.toArray(), []);
 
@@ -35,28 +36,34 @@ export function SearchBar() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-2 w-full flex flex-col">
       <input
-        className="w-full p-2 border rounded shadow-sm"
+        className="p-2 border rounded shadow-sm"
         type="text"
         placeholder="Search species..."
         value={query}
         onChange={handleSearch}
+        onFocus={() => setIsFocused(true)}
       />
 
       <div className="mt-2 bg-white shadow-lg rounded-lg overflow-y-auto max-h-80">
-        {results.map((species) => (
-          <div
-            key={species.speciesId}
-            onClick={() => selectSpecies(species)}
-            className="p-3 border-b hover:bg-gray-50 cursor-pointer"
-          >
-            <p className="font-bold text-green-800">{species.commonName}</p>
-            <p className="text-sm italic text-gray-600">
-              {species.scientificName}
-            </p>
-          </div>
-        ))}
+        {isFocused &&
+          (results.length > 0 ? (
+            results.map((species) => (
+              <div
+                key={species.speciesId}
+                onClick={() => selectSpecies(species)}
+                className="p-3 border-b hover:bg-gray-50 cursor-pointer"
+              >
+                <p className="font-bold text-green-500">{species.commonName}</p>
+                <p className="text-sm italic text-gray-600">
+                  {species.scientificName}
+                </p>
+              </div>
+            ))
+          ) : query.trim() !== "" ? (
+            <p className="p-3 text-gray-500">No results found.</p>
+          ) : null)}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { SearchBar } from "../components/SearchBar";
 
 export function HomePage() {
   return (
-    <div>
+    <div className="w-full">
       <SearchBar />
     </div>
   );
