@@ -1,7 +1,7 @@
-import { initializeDatabase } from "./database/db.ts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { initializeDatabase } from "./db.js";
 
-function App() {
+export function HomePage() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -23,10 +23,9 @@ function App() {
   }
 
   return (
-    <>
+    <div className="p-8">
       <h1 className="text-5xl font-bold">EcoApp</h1>
-    </>
+      <p className="mt-4 text-green-600">Database is ready and seeded.</p>
+    </div>
   );
 }
-
-export default App;
