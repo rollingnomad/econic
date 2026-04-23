@@ -1,15 +1,31 @@
-import { Route, Routes } from "react-router";
+import { useEffect, useState } from "react";
+import { initializeDatabase } from "./database/db";
 import { HomePage } from "./pages/HomePage";
-import "./App.css";
+import { Header } from "./pages/Header";
 
-function App() {
+export default function App() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    async function setup() {
+      await initializeDatabase();
+      setIsReady(true);
+    }
+    setup();
+  }, []);
+
+  if (!isReady) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <p className="animate-pulse text-gray-500">Loading species data...</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <Routes>
-        <Route index element={<HomePage />} />
-      </Routes>
-    </>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-start align-top">
+      <Header />
+      <HomePage />
+    </div>
   );
 }
-
-export default App;
