@@ -17,15 +17,12 @@ export async function initializeDatabase() {
   if (count === 0) {
     console.log("Seeding database...");
     try {
-      // NOTE: In a Vite/React project, files in the 'public' folder
-      // are served from the root path '/'
       const response = await fetch("/sofiaData.json");
 
       if (!response.ok) throw new Error("Could not fetch species data.");
 
       const data = await response.json();
 
-      // bulkPut handles the array of objects
       await db.speciesData.bulkPut(data);
 
       console.log("Database seeded successfully!");

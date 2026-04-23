@@ -1,3 +1,33 @@
 export function Header() {
-  return <h1 className="bg-amber-600">This is the header.</h1>;
+  const onLoad = () => {
+    console.log("Load clicked!");
+  };
+  const onSave = () => {
+    console.log("Save clicked!");
+  };
+
+  return (
+    <header className="bg-green-500 text-white px-4 py-2 shadow">
+      <div className="max-w-5xl mx-auto flex items-center justify-between">
+        {/* Left: App Name */}
+        <h1 className="text-lg font-bold">ecoSofia</h1>
+
+        {/* Right: Actions */}
+        <div className="flex gap-2">
+          <button
+            onClick={onLoad}
+            className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition"
+          >
+            Load
+          </button>
+          <button
+            onClick={onSave}
+            className="bg-white text-green-600 hover:bg-gray-100 px-3 py-1 rounded text-sm font-medium transition"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 }

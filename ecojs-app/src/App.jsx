@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { initializeDatabase } from "./database/db";
+import { initializeDatabase } from "./database-info/db";
 import { HomePage } from "./pages/HomePage";
 import { Header } from "./pages/Header";
 
