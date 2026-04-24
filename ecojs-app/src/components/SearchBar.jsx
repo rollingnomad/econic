@@ -38,7 +38,7 @@ export function SearchBar() {
   return (
     <div className="p-2 w-full flex flex-col">
       <input
-        className="p-2 border rounded shadow-sm"
+        className="p-2 border rounded border-gray-500"
         type="text"
         placeholder="Search species..."
         value={query}

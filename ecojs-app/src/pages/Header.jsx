@@ -18,7 +18,7 @@ export function Header() {
             onClick={onLoad}
             className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition"
           >
-            Load
+            Pick Site
           </button>
           <button
             onClick={onSave}
