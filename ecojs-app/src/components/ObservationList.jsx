@@ -14,6 +14,7 @@ export function ObservationList({ community }) {
       .equals(Number(community.id))
       .toArray();
 
+    console.log(obs);
     // 2. get all matching species in ONE query
     const speciesIds = obs.map((o) => o.speciesId);
 
@@ -47,6 +48,7 @@ export function ObservationList({ community }) {
           key={obs.id}
           className="p-2 my-2 border rounded-lg border-gray-500 flex justify-between items-center"
         >
+          {/* Left: Names */}
           <div>
             <p className="font-bold text-gray-700">
               {obs.species?.commonName ?? "Unknown species"}
@@ -56,7 +58,19 @@ export function ObservationList({ community }) {
             </p>
           </div>
 
-          <div className="space-x-1">
+          {/* Right: Buttons and layers */}
+          <div className="space-x-1 flex items-center">
+            <div>
+              <div className="flex flex-col text-xs items-center text-gray-500">
+                <p>L1-L4</p>
+                <div className="flex ">
+                  {obs.layers &&
+                    Object.entries(obs.layers).map(([layer, value]) => (
+                      <p key={layer}>{value}|</p>
+                    ))}
+                </div>
+              </div>
+            </div>
             <button
               onClick={() => setEditingObs(obs)}
               className="px-2 rounded text-white bg-green-500"
