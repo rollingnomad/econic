@@ -5,7 +5,6 @@ import { useState, useMemo } from "react";
 
 export function SearchBar() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
 
   const allSpecies = useLiveQuery(() => db.speciesData.toArray(), []);
@@ -14,25 +13,27 @@ export function SearchBar() {
     if (!allSpecies) return null;
 
     return new Fuse(allSpecies, {
-      keys: ["commonName", "scientificName"],
+      keys: [
+        { name: "commonName", weight: 0.7 },
+        { name: "scientificName", weight: 0.3 },
+      ],
       threshold: 0.3,
+      ignoreLocation: true,
     });
   }, [allSpecies]);
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    if (fuse && value.length > 1) {
-      const searchResults = fuse.search(value);
-      setResults(searchResults.map((r) => r.item));
-    } else {
-      setResults([]);
-    }
-  };
+  const results = useMemo(() => {
+    if (!fuse || query.length <= 1) return [];
+    return fuse
+      .search(query)
+      .slice(0, 20)
+      .map((r) => r.item);
+  }, [fuse, query]);
 
   const selectSpecies = (species) => {
     console.log("Selected species", species);
+    setQuery("");
+    setIsFocused(false);
   };
 
   return (
@@ -42,13 +43,14 @@ export function SearchBar() {
         type="text"
         placeholder="Search species..."
         value={query}
-        onChange={handleSearch}
+        onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setIsFocused(true)}
+        onBlur={() => setTimeout(() => setIsFocused(false), 100)}
       />
 
-      <div className="mt-2 bg-white shadow-lg rounded-lg overflow-y-auto max-h-80">
-        {isFocused &&
-          (results.length > 0 ? (
+      {isFocused && (
+        <div className="mt-2 bg-white shadow-lg rounded-lg overflow-y-auto max-h-80">
+          {results.length > 0 ? (
             results.map((species) => (
               <div
                 key={species.speciesId}
@@ -63,8 +65,9 @@ export function SearchBar() {
             ))
           ) : query.trim() !== "" ? (
             <p className="p-3 text-gray-500">No results found.</p>
-          ) : null)}
-      </div>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }

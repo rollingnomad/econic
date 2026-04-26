@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router";
 import { initializeDatabase } from "./database-info/db";
-import { HomePage } from "./pages/HomePage";
 import { SelectionPage } from "./pages/SelectionPage";
-import { Header } from "./pages/Header";
 import { SurveyPage } from "./pages/SurveyPage";
 
 export default function App() {

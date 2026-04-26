@@ -1,6 +1,9 @@
-export function Header() {
-  const onLoad = () => {
-    console.log("Load clicked!");
+import { useNavigate } from "react-router";
+
+export function Header({ site, community }) {
+  const navigate = useNavigate();
+  const handleChangesite = () => {
+    navigate("/");
   };
   const onSave = () => {
     console.log("Save clicked!");
@@ -12,10 +15,17 @@ export function Header() {
         {/* Left: App Name */}
         <h1 className="text-lg font-bold">ecoSofia</h1>
 
+        {/* Middle: Site/Community */}
+
+        <div className="flex flex-col text-xs">
+          <p>{site?.name}</p>
+          <p>{community?.name}</p>
+        </div>
+
         {/* Right: Actions */}
         <div className="flex gap-2">
           <button
-            onClick={onLoad}
+            onClick={handleChangesite}
             className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition"
           >
             Pick Site
