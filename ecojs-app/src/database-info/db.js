@@ -8,7 +8,7 @@ db.version(1).stores({
   speciesData: "speciesId, newCode, commonName, scientificName",
   sites: "++id, name, location",
   communities: "++id, siteId, name",
-  observations: "++id, communityId, speciesId",
+  observations: "++id, &[communityId+speciesId], communityId, speciesId",
 });
 
 export async function initializeDatabase() {
