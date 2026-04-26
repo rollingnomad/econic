@@ -3,11 +3,14 @@ import { db } from "../database-info/db";
 import Fuse from "fuse.js";
 import { useState, useMemo } from "react";
 
-export function SearchBar() {
+export function SearchBar({ community }) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-  const allSpecies = useLiveQuery(() => db.speciesData.toArray(), []);
+  const allSpecies = useLiveQuery(() => {
+    if (!community) return null;
+    (db.speciesData.toArray(), []);
+  });
 
   const fuse = useMemo(() => {
     if (!allSpecies) return null;
@@ -23,15 +26,21 @@ export function SearchBar() {
   }, [allSpecies]);
 
   const results = useMemo(() => {
-    if (!fuse || query.length <= 1) return [];
+    if (!fuse || query.length <= 1 || !community) return [];
     return fuse
       .search(query)
       .slice(0, 20)
       .map((r) => r.item);
-  }, [fuse, query]);
+  }, [fuse, query, community]);
 
-  const selectSpecies = (species) => {
-    console.log("Selected species", species);
+  const selectSpecies = async (species) => {
+    if (!community) return;
+
+    await db.observations.add({
+      communityId: Number(community.id),
+      speciesId: species.speciesId,
+    });
+
     setQuery("");
     setIsFocused(false);
   };

@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { SearchBar } from "../components/SearchBar";
 import { useParams } from "react-router";
 import { db } from "../database-info/db";
+import { ObservationList } from "../components/ObservationList";
 
 export function SurveyPage() {
   const { siteId, communityId } = useParams();
@@ -20,7 +21,8 @@ export function SurveyPage() {
   return (
     <>
       <Header site={site} community={community} />
-      <SearchBar />
+      <SearchBar community={community} />
+      <ObservationList site={site} community={community} />
     </>
   );
 }
