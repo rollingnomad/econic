@@ -1,37 +1,9 @@
-import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../database-info/db";
 import { useState } from "react";
 import { LayerDrawer } from "./LayerDrawer";
 
-export function ObservationList({ community }) {
+export function ObservationList({ observations }) {
   const [editingObs, setEditingObs] = useState(null);
-  const observations = useLiveQuery(async () => {
-    if (!community) return [];
-
-    // 1. get observations for this community
-    const obs = await db.observations
-      .where("communityId")
-      .equals(Number(community.id))
-      .toArray();
-
-    console.log(obs);
-    // 2. get all matching species in ONE query
-    const speciesIds = obs.map((o) => o.speciesId);
-
-    const species = await db.speciesData
-      .where("speciesId")
-      .anyOf(speciesIds)
-      .toArray();
-
-    // 3. build lookup map
-    const speciesMap = new Map(species.map((s) => [s.speciesId, s]));
-
-    // 4. merge
-    return obs.map((o) => ({
-      ...o,
-      species: speciesMap.get(o.speciesId),
-    }));
-  }, [community]);
 
   const handleDeleteObservation = async (id) => {
     const ok = window.confirm("Delete this observation?");

@@ -19,12 +19,35 @@ export function SurveyPage() {
     return db.communities.get(Number(communityId));
   }, [communityId]);
 
+  const observations = useLiveQuery(async () => {
+    if (!communityId) return [];
+
+    const obs = await db.observations
+      .where("communityId")
+      .equals(Number(communityId))
+      .toArray();
+
+    const speciesIds = obs.map((o) => o.speciesId);
+
+    const species = await db.speciesData
+      .where("speciesId")
+      .anyOf(speciesIds)
+      .toArray();
+
+    const map = new Map(species.map((s) => [s.speciesId, s]));
+
+    return obs.map((o) => ({
+      ...o,
+      species: map.get(o.speciesId),
+    }));
+  }, [communityId]);
+
   return (
     <>
       <Header site={site} community={community} />
       <SearchBar community={community} />
-      <ObservationList site={site} community={community} />
-      <CalculationsBox community={community} />
+      <ObservationList observations={observations} />
+      <CalculationsBox community={community} observations={observations} />
     </>
   );
 }
