@@ -7,6 +7,13 @@ export function SearchBar({ community }) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
+  const defaultLayers = {
+    1: "N",
+    2: "N",
+    3: "N",
+    4: "N",
+  };
+
   const allSpecies = useLiveQuery(() => db.speciesData.toArray(), []);
   const fuse = useMemo(() => {
     if (!allSpecies) return null;
@@ -35,6 +42,7 @@ export function SearchBar({ community }) {
     await db.observations.add({
       communityId: Number(community.id),
       speciesId: species.speciesId,
+      layers: { ...defaultLayers },
     });
 
     setQuery("");
