@@ -39,9 +39,21 @@ export function SearchBar({ community }) {
   const selectSpecies = async (species) => {
     if (!community) return;
 
+    const communityId = Number(community.id);
+    const speciesId = species.speciesId;
+
+    const existing = await db.observations
+      .where({ communityId, speciesId })
+      .first();
+
+    if (existing) {
+      alert("This species is already in this community.");
+      return;
+    }
+
     await db.observations.add({
-      communityId: Number(community.id),
-      speciesId: species.speciesId,
+      communityId,
+      speciesId,
       layers: { ...defaultLayers },
     });
 

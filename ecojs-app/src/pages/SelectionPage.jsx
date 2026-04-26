@@ -89,7 +89,7 @@ export function SelectionPage() {
             value={newSiteName}
             onChange={(e) => setNewSiteName(e.target.value)}
             placeholder="New site name"
-            className="p-2 flex-1 rounded bg-white"
+            className="p-2 flex-1 rounded bg-white focus:outline-none"
           />
           <button
             onClick={handleCreateSite}
@@ -124,7 +124,7 @@ export function SelectionPage() {
                 value={newCommunityName}
                 onChange={(e) => setNewCommunityName(e.target.value)}
                 placeholder="New community name"
-                className="p-2 flex-1 rounded bg-white"
+                className="p-2 flex-1 rounded bg-white focus:outline-none"
               />
               <button
                 onClick={handleCreateCommunity}
