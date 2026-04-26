@@ -7,11 +7,7 @@ export function SearchBar({ community }) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-  const allSpecies = useLiveQuery(() => {
-    if (!community) return null;
-    (db.speciesData.toArray(), []);
-  });
-
+  const allSpecies = useLiveQuery(() => db.speciesData.toArray(), []);
   const fuse = useMemo(() => {
     if (!allSpecies) return null;
 
