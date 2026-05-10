@@ -74,7 +74,7 @@ export function SelectionPage() {
         <div className="space-y-6">
           <h1 className="text-xl font-bold text-white">Sites</h1>
           {/* Sites */}
-          <div className="max-h-55 overflow-scroll overflow-x-clip">
+          <div className="max-h-55 overflow-scroll overflow-x-clip space-y-2">
             {sites?.map((site) => (
               <div className="flex gap-2" key={site.id}>
                 <button
