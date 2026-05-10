@@ -1,8 +1,12 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { exportSite } from "../database-info/exportSite";
+import { importSite } from "../database-info/importSite";
 
 export function Header({ site, community }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isSelectionPage = location.pathname === "/";
 
   const handleChangesite = () => {
     navigate("/");
@@ -31,7 +35,7 @@ export function Header({ site, community }) {
 
           return;
         } catch (shareErr) {
-          console.warn("Share failed, using download fallback.");
+          console.warn(`Share failed, using download fallback - ${shareErr}`);
         }
       }
 
@@ -60,6 +64,29 @@ export function Header({ site, community }) {
     }
   };
 
+  const handleImport = async (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+
+      const data = JSON.parse(text);
+
+      const site = await importSite(data);
+
+      alert(`Imported ${site.name}`);
+    } catch (err) {
+      console.error(err);
+
+      alert("Could not import file.");
+    }
+
+    // reset input so same file can be re-imported later
+    e.target.value = "";
+  };
+
   return (
     <header className="bg-green-500 text-white px-4 py-2 shadow min-w-screen">
       <div className="flex items-center justify-between">
@@ -75,17 +102,43 @@ export function Header({ site, community }) {
 
         {/* Right: Actions */}
         <div className="flex gap-2">
+          {/* Swap */}
           <button
             onClick={handleChangesite}
-            className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition"
+            disabled={isSelectionPage}
+            className={`px-3 py-1 rounded text-sm font-medium transition
+      ${
+        isSelectionPage
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-white text-green-600 hover:bg-gray-300 cursor-pointer"
+      }`}
           >
-            Pick Site
+            Swap
           </button>
+
+          {/* Load always enabled */}
+          <label className="bg-white text-green-600 hover:bg-gray-300 px-3 py-1 rounded text-sm font-medium transition cursor-pointer">
+            Load
+            <input
+              type="file"
+              accept=".json"
+              className="hidden"
+              onChange={handleImport}
+            />
+          </label>
+
+          {/* Save */}
           <button
             onClick={onSave}
-            className="bg-white text-green-600 hover:bg-gray-300 px-3 py-1 rounded text-sm font-medium transition"
+            disabled={isSelectionPage}
+            className={`px-3 py-1 rounded text-sm font-medium transition
+      ${
+        isSelectionPage
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-white text-green-600 hover:bg-gray-300 cursor-pointer"
+      }`}
           >
-            Save & Send
+            Save
           </button>
         </div>
       </div>

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { db } from "../database-info/db";
 import { useLiveQuery } from "dexie-react-hooks";
+import { Header } from "./Header";
 
 export function SelectionPage() {
   const navigate = useNavigate();
-
   const [selectedSiteId, setSelectedSiteId] = useState();
 
   const [newSiteName, setNewSiteName] = useState("");
@@ -67,77 +67,74 @@ export function SelectionPage() {
   };
 
   return (
-    <div className="p-2 w-full max-w-200 h-screen flex flex-col bg-green-500">
-      <h1 className="text-3xl font-bold text-center mb-8 text-white">
-        ecoSofia
-      </h1>
-      <div className="space-y-6">
-        <h1 className="text-xl font-bold text-white">Select or Create Site</h1>
-
-        {/* Sites */}
-        <div className="space-y-2 max-h-55 overflow-scroll p-4 overflow-x-clip">
-          {sites?.map((site) => (
-            <button
-              key={site.id}
-              onClick={() => setSelectedSiteId(site.id)}
-              className="block w-full rounded bg-white p-2 shadow"
-            >
-              {site.name}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex gap-2">
-          <input
-            value={newSiteName}
-            onChange={(e) => setNewSiteName(e.target.value)}
-            placeholder="New site name"
-            className="p-2 flex-1 rounded bg-white focus:outline-none"
-          />
-          <button
-            onClick={handleCreateSite}
-            className="bg-blue-500 text-white px-4"
-          >
-            Add
-          </button>
-        </div>
-
-        {/* Communities */}
-        {selectedSiteId && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-white">
-              Select/Create Community for{" "}
-              {selectedSite ? selectedSite.name : " "}
-            </h2>
-
-            <div className="space-y-2 max-h-65 overflow-scroll">
-              {communities?.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => handleCommunitySelect(c.id)}
-                  className="block w-full rounded bg-white p-2 shadow"
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                value={newCommunityName}
-                onChange={(e) => setNewCommunityName(e.target.value)}
-                placeholder="New community name"
-                className="p-2 flex-1 rounded bg-white focus:outline-none"
-              />
+    <div>
+      <Header site={selectedSite} community={null} />
+      <div className="p-2 w-full max-w-200 h-screen flex flex-col bg-green-500">
+        <div className="space-y-6">
+          <h1 className="text-xl font-bold text-white">
+            Select or Create Site
+          </h1>
+          {/* Sites */}
+          <div className="space-y-2 max-h-55 overflow-scroll p-4 overflow-x-clip">
+            {sites?.map((site) => (
               <button
-                onClick={handleCreateCommunity}
-                className="bg-blue-500 text-white px-4"
+                key={site.id}
+                onClick={() => setSelectedSiteId(site.id)}
+                className="block w-full rounded bg-white p-2 shadow"
               >
-                Add
+                {site.name}
               </button>
-            </div>
+            ))}
           </div>
-        )}
+          <div className="flex gap-2">
+            <input
+              value={newSiteName}
+              onChange={(e) => setNewSiteName(e.target.value)}
+              placeholder="New site name"
+              className="p-2 flex-1 rounded bg-white focus:outline-none"
+            />
+            <button
+              onClick={handleCreateSite}
+              className="bg-blue-500 text-white px-4"
+            >
+              Add
+            </button>
+          </div>
+          {/* Communities */}
+          {selectedSiteId && (
+            <div className="space-y-6">
+              <h2 className="text-lg font-semibold text-white">
+                Select/Create Community for{" "}
+                {selectedSite ? selectedSite.name : " "}
+              </h2>
+              <div className="space-y-2 max-h-65 overflow-scroll">
+                {communities?.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => handleCommunitySelect(c.id)}
+                    className="block w-full rounded bg-white p-2 shadow"
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  value={newCommunityName}
+                  onChange={(e) => setNewCommunityName(e.target.value)}
+                  placeholder="New community name"
+                  className="p-2 flex-1 rounded bg-white focus:outline-none"
+                />
+                <button
+                  onClick={handleCreateCommunity}
+                  className="bg-blue-500 text-white px-4"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
