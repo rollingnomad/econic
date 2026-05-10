@@ -17,7 +17,7 @@ export async function initializeDatabase() {
   if (count === 0) {
     console.log("Seeding database...");
     try {
-      const response = await fetch("/sofiaData.json");
+      const response = await fetch(`${import.meta.env.BASE_URL}sofiaData.json`);
 
       if (!response.ok) throw new Error("Could not fetch species data.");
 
