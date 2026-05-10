@@ -39,7 +39,7 @@ export function SearchBar({ community }) {
   const selectSpecies = async (species) => {
     if (!community) return;
 
-    const communityId = Number(community.id);
+    const communityId = community.id;
     const speciesId = species.speciesId;
 
     const existing = await db.observations
@@ -52,6 +52,7 @@ export function SearchBar({ community }) {
     }
 
     await db.observations.add({
+      id: crypto.randomUUID(),
       communityId,
       speciesId,
       layers: { ...defaultLayers },

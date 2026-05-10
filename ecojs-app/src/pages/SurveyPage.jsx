@@ -11,12 +11,12 @@ export function SurveyPage() {
 
   const site = useLiveQuery(() => {
     if (!siteId) return null;
-    return db.sites.get(Number(siteId));
+    return db.sites.get(siteId);
   }, [siteId]);
 
   const community = useLiveQuery(() => {
     if (!communityId) return null;
-    return db.communities.get(Number(communityId));
+    return db.communities.get(communityId);
   }, [communityId]);
 
   const observations = useLiveQuery(async () => {
@@ -24,7 +24,7 @@ export function SurveyPage() {
 
     const obs = await db.observations
       .where("communityId")
-      .equals(Number(communityId))
+      .equals(communityId)
       .toArray();
 
     const speciesIds = obs.map((o) => o.speciesId);

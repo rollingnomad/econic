@@ -18,10 +18,7 @@ export function SelectionPage() {
   // Get all communities for the selected site
   const communities = useLiveQuery(() => {
     if (!selectedSiteId) return [];
-    return db.communities
-      .where("siteId")
-      .equals(Number(selectedSiteId))
-      .toArray();
+    return db.communities.where("siteId").equals(selectedSiteId).toArray();
   }, [selectedSiteId]);
 
   //   Handlers for Sites
@@ -29,7 +26,10 @@ export function SelectionPage() {
     e.preventDefault();
     if (!newSiteName.trim()) return;
 
-    const id = await db.sites.add({
+    const id = crypto.randomUUID();
+
+    await db.sites.add({
+      id,
       name: newSiteName,
       location: newSiteLocation,
     });
@@ -44,15 +44,18 @@ export function SelectionPage() {
 
   const selectedSite = useLiveQuery(() => {
     if (!selectedSiteId) return null;
-    return db.sites.get(Number(selectedSiteId));
+    return db.sites.get(selectedSiteId);
   }, [selectedSiteId]);
 
   const handleCreateCommunity = async (e) => {
     e.preventDefault();
     if (!newCommunityName.trim() || !selectedSiteId) return;
 
-    const id = await db.communities.add({
-      siteId: Number(selectedSiteId),
+    const id = crypto.randomUUID();
+
+    await db.communities.add({
+      id,
+      siteId: selectedSiteId,
       name: newCommunityName,
     });
 
