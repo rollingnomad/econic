@@ -1,12 +1,63 @@
 import { useNavigate } from "react-router";
+import { exportSite } from "../database-info/exportSite";
 
 export function Header({ site, community }) {
   const navigate = useNavigate();
+
   const handleChangesite = () => {
     navigate("/");
   };
-  const onSave = () => {
-    console.log("Save clicked!");
+
+  const onSave = async () => {
+    if (!site?.id) return;
+
+    try {
+      const data = await exportSite(site.id);
+
+      const json = JSON.stringify(data, null, 2);
+
+      const file = new File([json], `${site.name}.json`, {
+        type: "application/json",
+      });
+
+      // Native mobile sharing
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: site.name,
+            text: `ecoSofia survey export for ${site.name}`,
+            files: [file],
+          });
+
+          return;
+        } catch (shareErr) {
+          console.warn("Share failed, using download fallback.");
+        }
+      }
+
+      // Download fallback
+      const blob = new Blob([json], {
+        type: "application/json",
+      });
+
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download = `${site.name}.json`;
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      a.remove();
+
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Could not export site.");
+    }
   };
 
   return (
