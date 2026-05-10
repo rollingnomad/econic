@@ -9,7 +9,7 @@ registerSW({ immediate: true });
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/rollingnomad/">
       <App />
     </BrowserRouter>
   </StrictMode>,
