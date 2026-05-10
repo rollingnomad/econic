@@ -12,13 +12,15 @@ export function ObservationList({ observations }) {
   };
 
   return (
-    <div className="p-2">
-      {observations?.length === 0 && <p>No observations added...</p>}
+    <div className="w-full p-2">
+      {observations?.length === 0 && (
+        <p className="text-white">No observations added...</p>
+      )}
 
       {observations?.map((obs) => (
         <div
           key={obs.id}
-          className="p-2 my-2 border rounded-lg border-gray-500 flex justify-between items-center"
+          className="p-2 my-2 border rounded-lg border-gray-500 flex justify-between items-center bg-white"
         >
           {/* Left: Names */}
           <div>

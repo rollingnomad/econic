@@ -34,7 +34,7 @@ export function Header({ site, community }) {
             onClick={onSave}
             className="bg-white text-green-600 hover:bg-gray-300 px-3 py-1 rounded text-sm font-medium transition"
           >
-            Save
+            Save & Send
           </button>
         </div>
       </div>

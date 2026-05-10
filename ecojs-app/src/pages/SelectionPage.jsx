@@ -64,7 +64,7 @@ export function SelectionPage() {
   };
 
   return (
-    <div className="p-2 w-full h-screen flex flex-col bg-green-500">
+    <div className="p-2 w-full max-w-200 h-screen flex flex-col bg-green-500">
       <h1 className="text-3xl font-bold text-center mb-8 text-white">
         ecoSofia
       </h1>
@@ -72,7 +72,7 @@ export function SelectionPage() {
         <h1 className="text-xl font-bold text-white">Select or Create Site</h1>
 
         {/* Sites */}
-        <div className="space-y-2 max-h-55 overflow-scroll">
+        <div className="space-y-2 max-h-55 overflow-scroll p-4 overflow-x-clip">
           {sites?.map((site) => (
             <button
               key={site.id}

@@ -29,7 +29,7 @@ export function CalculationsBox({ observations, community }) {
   const FQINative = nNative > 0 ? meanCCNative * Math.sqrt(nNative) : 0;
 
   return (
-    <div className="p-2 m-2 border border-gray-500 text-gray-500 rounded-lg space-y-1 flex justify-between items-center text-sm">
+    <div className="m-2 bg-white border p-2 border-gray-500 text-gray-500 rounded-lg space-y-1 flex justify-between items-center text-sm">
       <div className="flex flex-col items-center">
         <p className="font-bold">All Species</p>
         <p>Species: {n}</p>

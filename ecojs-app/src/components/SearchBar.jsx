@@ -64,7 +64,7 @@ export function SearchBar({ community }) {
   return (
     <div className="p-2 w-full flex flex-col">
       <input
-        className="p-2 border rounded border-gray-500"
+        className="p-2 border rounded border-gray-500 bg-white"
         type="text"
         placeholder="Search species..."
         value={query}

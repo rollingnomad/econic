@@ -17,19 +17,21 @@ export default function App() {
 
   if (!isReady) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="flex min-h-screen items-center justify-center bg-green-500">
         <p className="animate-pulse text-gray-500">Loading species data...</p>
       </div>
     );
   }
 
   return (
-    <Routes>
-      <Route index element={<SelectionPage />} />
-      <Route
-        path="sites/:siteId/communities/:communityId"
-        element={<SurveyPage />}
-      />
-    </Routes>
+    <div className="flex flex-col min-h-screen items-center justify-start bg-green-500">
+      <Routes>
+        <Route index element={<SelectionPage />} />
+        <Route
+          path="sites/:siteId/communities/:communityId"
+          element={<SurveyPage />}
+        />
+      </Routes>
+    </div>
   );
 }
